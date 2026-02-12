@@ -1,43 +1,49 @@
 ---
-import { Image } from "astro:assets";
-import advertisingSvg from "@assets/images/services/advertising.svg?raw";
-import designSvg from "@assets/images/services/creative-designer-doing-multitasking.svg?raw";
-import mobileSvg from "@assets/images/services/mobile-app-ui-ux-design.svg?raw";
-import seoSvg from "@assets/images/services/seo-link-building.svg?raw";
-import websiteSvg from "@assets/images/services/website-ui-ux-development.svg?raw";
+import service1 from "@assets/images/services/service1.jpeg";
+import service2 from "@assets/images/services/service2.jpeg";
+import service3 from "@assets/images/services/service3.jpeg";
+import service4 from "@assets/images/services/service4.png";
+import service5 from "@assets/images/services/service5.png";
 
 const { class: className } = Astro.props;
 
+const IMAGE_CARD_SIZE = 320;
+
 const points = [
 	{
-		title: "Websites",
+		title: "Papeleria",
 		content:
 			"At Mintaka Studio, we specialize in crafting bespoke websites tailored to your brand's needs. Our approach combines aesthetic design with technical proficiency, ensuring your site is visually stunning, fast, and responsive across all devices.",
-		image: websiteSvg,
+		image: service1,
+		alt: "Website development",
 	},
 	{
-		title: "Apps",
+		title: "Merchandising",
 		content:
 			"We deliver top-tier app development services, focusing on creating intuitive, efficient, and engaging mobile applications. Whether for iOS, Android, or cross-platform, our apps are designed to enhance user experience and drive business growth.",
-		image: mobileSvg,
+		image: service2,
+		alt: "Mobile app development",
 	},
 	{
-		title: "UI/UX Design",
+		title: "Souvenirs",
 		content:
 			"Our UI/UX design services are centered on creating user-centric interfaces that are both visually appealing and easy to navigate. We prioritize user experience, ensuring every design element aligns with the users' needs and enhances overall interaction with your digital products.",
-		image: designSvg,
+		image: service3,
+		alt: "UI/UX design",
 	},
 	{
-		title: "SEO",
+		title: "Objetos",
 		content:
 			"Mintaka Studio's SEO services are designed to increase your website's visibility and drive organic traffic. We use a blend of the latest SEO strategies and techniques to improve your search engine rankings, focusing on both on-page and off-page optimization.",
-		image: seoSvg,
+		image: service4,
+		alt: "SEO services",
 	},
 	{
-		title: "Advertising",
+		title: "Carteleria",
 		content:
 			"Our advertising services aim to maximize your ROI through targeted and effective ad campaigns. We specialize in creating compelling ad content and strategies that resonate with your audience, utilizing various platforms like Google Ads and social media to enhance your brand's reach and engagement.",
-		image: advertisingSvg,
+		image: service5,
+		alt: "Advertising",
 	},
 ];
 ---
@@ -49,10 +55,19 @@ const points = [
 			{points.map(() => <div class="indicator w-full grow bg-[#333333]" />)}
 		</div>
 		{
-			points.map(({ title, content, image }) => (
+			points.map(({ title, content, image, alt }) => (
 				<div class="point flex h-screen w-full flex-col items-center justify-center gap-x-20 gap-y-12 p-16 pr-0 md:flex-row lg:gap-x-40">
-					<div class="hidden w-full max-w-80 lg:block">
-						<Fragment set:html={image} class="" />
+					<div
+						class="service-image-card hidden size-80 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/20 bg-white/5 lg:flex"
+						style={`width: ${IMAGE_CARD_SIZE}px; height: ${IMAGE_CARD_SIZE}px;`}>
+						<img
+							class="service-image h-full w-full object-cover"
+							src={typeof image === "string" ? image : image.src}
+							alt={alt}
+							width={IMAGE_CARD_SIZE}
+							height={IMAGE_CARD_SIZE}
+							fetchpriority="low"
+						/>
 					</div>
 					<article class="flex flex-col gap-14">
 						<h3 class="faq font-display text-4xl uppercase md:text-5xl lg:text-6xl">{title}</h3>
@@ -116,15 +131,17 @@ const points = [
 		points.forEach(function (elem, i) {
 			gsap.set(elem, { position: "absolute", top: 0 });
 
+			const imageCard = (elem as HTMLElement).querySelector(".service-image-card");
+
 			// https://codepen.io/zank/pen/oNVjYMM?editors=0010
 			tl.to(indicators[i], { backgroundColor: "white", duration: 0.25 }, i);
-			tl.from((elem as HTMLElement).querySelector("svg"), { autoAlpha: 0 }, i);
+			tl.from(imageCard, { autoAlpha: 0 }, i);
 			tl.from((elem as HTMLElement).querySelector("article"), { autoAlpha: 0, translateY: 100 }, i);
 
 			if (i != points.length - 1) {
 				tl.to(indicators[i], { backgroundColor: "#333333", duration: 0.25 }, i + 0.75);
 				tl.to((elem as HTMLElement).querySelector("article"), { autoAlpha: 0, translateY: -100 }, i + 0.75);
-				tl.to((elem as HTMLElement).querySelector("svg"), { autoAlpha: 0 }, i + 0.75);
+				tl.to(imageCard, { autoAlpha: 0 }, i + 0.75);
 			}
 		});
 	}
