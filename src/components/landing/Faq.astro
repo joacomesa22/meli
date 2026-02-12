@@ -1,52 +1,46 @@
 ---
-import { getLangFromUrl, useTranslations, useTranslatedPath } from "@i18n/utils";
-
 const { class: className } = Astro.props;
-
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
-const translatePath = useTranslatedPath(lang);
 
 const faqs = [
 	{
-		question: t("faqs.question1"),
-		answer: t("faqs.answer1"),
+		question: "What's your favorite programming language?",
+		answer: "We love TypeScript for its type safety and modern features, but we're also proficient in Python, JavaScript, and Go.",
 	},
 	{
-		question: t("faqs.question2"),
-		answer: t("faqs.answer2"),
+		question: "Do you have a coffee machine in the office?",
+		answer: "Yes, and it's probably the most important piece of equipment we have! We run on caffeine and creativity.",
 	},
 	{
-		question: t("faqs.question3"),
-		answer: t("faqs.answer3"),
+		question: "What's your approach to rubber duck debugging?",
+		answer: "We have a collection of rubber ducks, each specialized in different programming languages. They're surprisingly effective at finding bugs!",
 	},
 	{
-		question: t("faqs.question4"),
-		answer: t("faqs.answer4"),
+		question: "How do you handle merge conflicts?",
+		answer: "With patience, coffee, and sometimes a bit of panic. But mostly with good Git practices and clear communication between team members.",
 	},
 	{
-		question: t("faqs.question5"),
-		answer: t("faqs.answer5"),
+		question: "What's your stance on tabs vs spaces?",
+		answer: "This is a trick question! We use EditorConfig to maintain consistency across the team. But secretly, we're team spaces.",
 	},
 	{
-		question: t("faqs.question6"),
-		answer: t("faqs.answer6"),
+		question: "How many monitors do your developers use?",
+		answer: "The correct answer is n+1, where n is the current number of monitors. There's always room for one more screen!",
 	},
 	{
-		question: t("faqs.question7"),
-		answer: t("faqs.answer7"),
+		question: "What's your debugging strategy?",
+		answer: "First we try console.log, then we try proper debugging tools, finally we stare at the code until it confesses its bugs.",
 	},
 	{
-		question: t("faqs.question8"),
-		answer: t("faqs.answer8"),
+		question: "How do you celebrate successful deployments?",
+		answer: "With a mix of relief, high-fives, and occasionally pizza. Then we immediately start worrying about the next deployment.",
 	},
 	{
-		question: t("faqs.question9"),
-		answer: t("faqs.answer9"),
+		question: "What's your preferred IDE theme?",
+		answer: "Dark theme during the day, darker theme at night. Our developers are like vampires - we avoid bright lights.",
 	},
 	{
-		question: t("faqs.question10"),
-		answer: t("faqs.answer10"),
+		question: "How do you name your variables?",
+		answer: "We follow strict naming conventions, but sometimes end up with classics like 'finalFinalVersionForReal' and 'thisWillDefinitelyWork'.",
 	},
 ];
 ---
@@ -92,7 +86,7 @@ const faqs = [
 	</div>
 	<div class="faq-more-questions col-span-12 flex flex-col items-center justify-center gap-8 pb-32">
 		<div class="flex gap-10">
-			<span class="other-question-title opacity-0">{t("faq.otherquestions")}</span>
+			<span class="other-question-title opacity-0">Other questions?</span>
 			<svg
 				fill="transparent"
 				stroke="#fff"
@@ -123,9 +117,9 @@ const faqs = [
 		</div>
 		<div class="faq-contact-us-button squircle-bg-white rounded-lg bg-zinc-200 opacity-0 sm:ml-44" data-cursor-hover data-cursor-parallax>
 			<a
-				class="flex h-10 w-full max-w-52 flex-1 items-center justify-center px-4 py-2 text-xl text-zinc-900 transition-all hover:text-black sm:w-auto md:font-bold lg:h-10"
-				href={translatePath("/contact/")}>
-				{t("contactus")}
+				class="flex h-10 w-full max-w-52 flex-1 items-center justify-center px-4 py-2 text-xl text-zinc-900 transition-all hover:text-black sm:w-auto md:font-medium lg:h-10"
+				href="/contact/">
+				Contact Us
 			</a>
 		</div>
 	</div>

@@ -1,0 +1,79 @@
+---
+import { Image } from "astro:assets";
+---
+
+<section class="section home-dark-section dual-service-section">
+	<div class="col-span-12 col-start-1 mx-auto px-8 py-24 md:px-12 lg:py-32">
+		<h2 class="sr-only">Dual Services</h2>
+		<div class="flex justify-between gap-12">
+			<!-- Left Service -->
+			<div class="service-container relative flex-1 overflow-hidden rounded-lg">
+				<img src="/images/example2.jpg" alt="Service 1" class="h-96 w-full object-cover md:h-[500px] lg:h-[600px]" />
+				<div class="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/60 to-transparent p-8 md:p-12">
+					<h3 class="font-display text-2xl uppercase text-white md:text-3xl lg:text-4xl">Eventos Sociales</h3>
+					<p class="mt-4 text-base text-white md:text-lg">This is a placeholder description. Add your content here.</p>
+				</div>
+			</div>
+
+			<!-- Divider Line -->
+			<div class="hidden md:flex md:min-h-[500px] md:w-px md:bg-zinc-300 lg:min-h-[600px]"></div>
+
+			<!-- Right Service -->
+			<div class="service-container relative flex-1 overflow-hidden rounded-lg">
+				<img src="/images/example3.png" alt="Service 2" class="h-96 w-full object-cover md:h-[500px] lg:h-[600px]" />
+				<div class="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/60 to-transparent p-8 md:p-12">
+					<h3 class="font-display text-2xl uppercase text-white md:text-3xl lg:text-4xl">Empresarial</h3>
+					<p class="mt-4 text-base text-white md:text-lg">This is a placeholder description. Add your content here.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<style>
+	section {
+		@apply relative flex w-full flex-col;
+	}
+
+	/* ensure the container clips overlay + image together */
+	.dual-service-section .service-container {
+		overflow: hidden;
+		border-radius: 0.5rem;
+	}
+</style>
+
+<script>
+	import { gsap } from "gsap";
+	import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+	gsap.registerPlugin(ScrollTrigger);
+
+	function init() {
+		const section = document.querySelector(".dual-service-section");
+		const containers = gsap.utils.toArray(".dual-service-section .service-container") as gsap.DOMTarget[];
+
+		if (!section) return;
+
+		const tl = gsap.timeline({
+			scrollTrigger: {
+				trigger: section,
+				// trigger a bit before center so animation starts earlier on scroll
+				start: "top 50%",
+				// play when entering, reverse when leaving
+				toggleActions: "play none none reverse",
+				markers: false,
+			},
+		});
+
+		tl.from(containers, {
+			duration: 0.6,
+			ease: "power3.out",
+			opacity: 0,
+			y: -40,
+			stagger: 0.12,
+		});
+	}
+
+	document.removeEventListener("DOMContentLoaded", init);
+	document.addEventListener("DOMContentLoaded", init);
+</script>

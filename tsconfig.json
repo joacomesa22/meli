@@ -11,9 +11,7 @@
 			"@styles/*": ["styles/*"],
 			"@utils/*": ["utils/*"],
 			"@pages/*": ["pages/*"],
-			"@assets/*": ["assets/*"],
-			"@locales/*": ["locales/*"],
-			"@i18n/*": ["i18n/*"],
-		},
-	},
+			"@assets/*": ["assets/*"]
+		}
+	}
 }

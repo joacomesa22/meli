@@ -3,18 +3,13 @@ import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import yourProjectImage from "@assets/images/projects/yourProject.png";
 import WokCard from "@components/work/WokCard.astro";
-import { getLangFromUrl, useTranslatedPath, useTranslations } from "@i18n/utils";
-
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
-const translatePath = useTranslatedPath(lang);
 
 const { class: className } = Astro.props;
 
 const allProjects = (await getCollection("projects"))
 	.filter((prj) => {
 		const [postLang, ...slug] = prj.slug.split("/");
-		return postLang === lang;
+		return postLang === "en";
 	})
 	.map((prj) => {
 		const [postLang, slug] = prj.slug.split("/");
@@ -29,7 +24,7 @@ const allProjects = (await getCollection("projects"))
 
 <section id="projects" class:list={["section work-preview-section home-dark-section py-12", className]}>
 	<div class="col-span-12 col-start-1 mx-auto max-w-7xl">
-		<h2 class="sr-only">{t("projects")}</h2>
+		<h2 class="sr-only">Projects</h2>
 		<ol class="grid grid-cols-1 gap-24 md:grid-cols-2 lg:gap-44">
 			{
 				allProjects.map((project, index) => (
@@ -89,7 +84,7 @@ const allProjects = (await getCollection("projects"))
 				immediateRender: false,
 			},
 			ease: "none",
-			backgroundColor: "#18181b",
+			backgroundColor: "#0f0f0f",
 			color: "#fff",
 		});
 
