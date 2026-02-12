@@ -68,21 +68,21 @@ html {
 
 ::-moz-selection {
 	color: white;
-	background: orange;
+	background: black;
 }
 
 ::selection {
 	color: white;
-	background: orange;
+	background: black;
 }
 
 .dark ::-moz-selection {
-	color: orange;
+	color: black;
 	background: white;
 }
 
 .dark ::selection {
-	color: orange;
+	color: black;
 	background: white;
 }
 
