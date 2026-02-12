@@ -1,11 +1,11 @@
 ---
+import "@fontsource-variable/jost";
 import BlobCursorFollower from "@/components/global/BlobCursorFollower.astro";
 import { AstroSeo, type AstroSeoProps } from "@astrolib/seo";
 import BaseHead from "@components/BaseHead.astro";
 import BackgroundTexture from "@components/global/BackgroundTexture.astro";
 import Footer from "@components/global/Footer.astro";
 import Navigation from "@components/global/Navigation.astro";
-import { getLangFromUrl } from "../i18n/utils";
 
 const { pathname } = Astro.url;
 
@@ -14,8 +14,6 @@ type Props = {
 };
 
 const { seo: seoProp } = Astro.props;
-
-const lang = getLangFromUrl(Astro.url);
 
 const shareImage = new URL("/images/meta/mintaka_share.gif", Astro.site).toString();
 
@@ -66,12 +64,12 @@ const seo = {
 };
 
 function cursorFollowerActive() {
-	const paths = ["", "/", "/it/", "/it"];
+	const paths = ["", "/"];
 	return paths.includes(pathname);
 }
 ---
 
-<html lang={lang}>
+<html lang="en">
 	<head>
 		<BaseHead />
 		<AstroSeo {...seo} />

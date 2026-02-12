@@ -5,38 +5,38 @@ import designSvg from "@assets/images/services/creative-designer-doing-multitask
 import mobileSvg from "@assets/images/services/mobile-app-ui-ux-design.svg?raw";
 import seoSvg from "@assets/images/services/seo-link-building.svg?raw";
 import websiteSvg from "@assets/images/services/website-ui-ux-development.svg?raw";
-import { getLangFromUrl, useTranslations, useTranslatedPath } from "@i18n/utils";
-
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
-const translatePath = useTranslatedPath(lang);
 
 const { class: className } = Astro.props;
 
 const points = [
 	{
-		title: t("websites.title"),
-		content: t("websites.content"),
+		title: "Websites",
+		content:
+			"At Mintaka Studio, we specialize in crafting bespoke websites tailored to your brand's needs. Our approach combines aesthetic design with technical proficiency, ensuring your site is visually stunning, fast, and responsive across all devices.",
 		image: websiteSvg,
 	},
 	{
-		title: t("apps.title"),
-		content: t("apps.content"),
+		title: "Apps",
+		content:
+			"We deliver top-tier app development services, focusing on creating intuitive, efficient, and engaging mobile applications. Whether for iOS, Android, or cross-platform, our apps are designed to enhance user experience and drive business growth.",
 		image: mobileSvg,
 	},
 	{
-		title: t("uiux.title"),
-		content: t("uiux.content"),
+		title: "UI/UX Design",
+		content:
+			"Our UI/UX design services are centered on creating user-centric interfaces that are both visually appealing and easy to navigate. We prioritize user experience, ensuring every design element aligns with the users' needs and enhances overall interaction with your digital products.",
 		image: designSvg,
 	},
 	{
-		title: t("seo.title"),
-		content: t("seo.content"),
+		title: "SEO",
+		content:
+			"Mintaka Studio's SEO services are designed to increase your website's visibility and drive organic traffic. We use a blend of the latest SEO strategies and techniques to improve your search engine rankings, focusing on both on-page and off-page optimization.",
 		image: seoSvg,
 	},
 	{
-		title: t("advertising.title"),
-		content: t("advertising.content"),
+		title: "Advertising",
+		content:
+			"Our advertising services aim to maximize your ROI through targeted and effective ad campaigns. We specialize in creating compelling ad content and strategies that resonate with your audience, utilizing various platforms like Google Ads and social media to enhance your brand's reach and engagement.",
 		image: advertisingSvg,
 	},
 ];
@@ -44,7 +44,7 @@ const points = [
 
 <section id="services" class:list={["section home-dark-section services-section relative", className]}>
 	<div class="wrapper col-span-12 h-screen w-full">
-		<h2 class="sr-only">{t("services")}</h2>
+		<h2 class="sr-only">Services</h2>
 		<div class="indicators absolute left-0 top-0 mt-[10vh] hidden h-[80vh] w-1 flex-col justify-between gap-2">
 			{points.map(() => <div class="indicator w-full grow bg-[#333333]" />)}
 		</div>

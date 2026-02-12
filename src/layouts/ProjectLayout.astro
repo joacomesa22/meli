@@ -1,0 +1,46 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+import Cta from "@components/landing/Cta.astro";
+
+interface Props {
+	frontmatter: any;
+}
+
+const { frontmatter } = Astro.props;
+const { body } = Astro.props;
+---
+
+<BaseLayout>
+	<section class="section">
+		<div class="mx-auto flex max-w-4xl flex-col gap-8 px-8 py-24 md:px-12">
+			<div class="flex flex-col gap-6">
+				<h1 class="font-display text-4xl font-bold uppercase md:text-6xl">{frontmatter.title}</h1>
+
+				<p class="max-w-2xl text-base text-slate-500">
+					<em>{frontmatter.description}</em>
+				</p>
+
+				{
+					frontmatter?.link && (
+						<a class="font-mono text-xl font-medium" href={frontmatter?.link} target="_blank">
+							<Icon name="iconamoon:link-external-thin" class="inline" /> Visit Project
+						</a>
+					)
+				}
+			</div>
+			<div class="mt-12 w-full justify-center">
+				<Image class="mt-12 w-full rounded-lg object-cover" src={frontmatter.image.source} alt={frontmatter.image.alt} />
+			</div>
+
+			<article class="prose prose-invert max-w-none">
+				<slot />
+			</article>
+
+			<div class="mt-24">
+				<Cta />
+			</div>
+		</div>
+	</section>
+</BaseLayout>
