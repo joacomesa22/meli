@@ -1,0 +1,197 @@
+---
+import Title from "@components/global/Title.astro";
+
+const STEPS = [
+	{
+		id: "step-1",
+		title: "Escuchamos tu propuesta",
+		subtitle: "We learn your goals, audience, and constraints to shape the project.",
+	},
+	{
+		id: "step-2",
+		title: "Diseñamos y planificamos",
+		subtitle: "We design and develop your solution with clear milestones and feedback loops.",
+	},
+	{
+		id: "step-3",
+		title: "Ejecutamos y entregamos",
+		subtitle: "We deploy, monitor, and support you so your project keeps performing.",
+	},
+];
+---
+
+<section class="service-steps-section isolate px-6 py-24 sm:py-32 lg:px-8" id="service-steps" aria-label="How we work">
+	<div class="mx-auto flex max-w-6xl items-center justify-center">
+		<Title class="pb-12 pt-4 uppercase" title="Cómo trabajamos" subtitle="Desde la idea hasta el lanzamiento" />
+		<div class="flex flex-col">
+			{
+				STEPS.map((step, i) => (
+					<div class="step-block">
+						<div class="step-row flex items-center gap-8 sm:gap-12">
+							<div class="stepper-cell flex w-9 shrink-0 justify-center" aria-hidden="true">
+								<button
+									type="button"
+									class="step-indicator focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+									data-step-index={i}
+									aria-label={`Go to step ${i + 1}: ${step.title}`}
+									aria-current={i === 0 ? "step" : undefined}>
+									<span class="step-number">{i + 1}</span>
+									<span class="step-check hidden" aria-hidden="true">
+										<svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+										</svg>
+									</span>
+								</button>
+							</div>
+							<article
+								class="step-content min-w-0 flex-1 scroll-mt-32 py-4"
+								id={step.id}
+								data-step-index={i}
+								aria-labelledby={`${step.id}-title`}>
+								<h3
+									id={`${step.id}-title`}
+									class="step-title font-display text-lg uppercase tracking-tight text-stone-900 sm:text-xl">
+									{step.title}
+								</h3>
+								<p class="step-subtitle mt-1.5 text-sm text-gray-600 sm:text-base">{step.subtitle}</p>
+							</article>
+						</div>
+						{i < STEPS.length - 1 && (
+							<div class="flex gap-8 sm:gap-12">
+								<div class="flex w-9 shrink-0 justify-center">
+									<div class="step-line h-12 w-px sm:h-14" />
+								</div>
+							</div>
+						)}
+					</div>
+				))
+			}
+		</div>
+	</div>
+</section>
+
+<style>
+	.step-indicator {
+		@apply flex size-8 shrink-0 items-center justify-center rounded-full border-2 border-zinc-300 bg-slate-100 text-sm font-medium text-zinc-500 transition-colors sm:size-9;
+	}
+
+	.step-indicator[aria-current="step"],
+	.step-indicator.completed {
+		@apply border-transparent bg-zinc-800 text-white;
+	}
+
+	.step-indicator[aria-current="step"] .step-number,
+	.step-indicator.completed .step-number {
+		@apply hidden;
+	}
+
+	.step-indicator[aria-current="step"] .step-check,
+	.step-indicator.completed .step-check {
+		@apply inline-flex;
+	}
+
+	.step-line {
+		@apply bg-zinc-300;
+	}
+
+	.step-line.active {
+		@apply bg-zinc-800;
+	}
+
+	.step-content {
+		@apply transition-colors duration-200;
+	}
+
+	.step-content.inactive .step-title {
+		@apply text-gray-400;
+	}
+
+	.step-content.inactive .step-subtitle {
+		@apply text-gray-400;
+	}
+</style>
+
+<script>
+	function getStepElements() {
+		const section = document.querySelector(".service-steps-section");
+		if (!section) return null;
+		const indicators = section.querySelectorAll(".step-indicator");
+		const contents = section.querySelectorAll(".step-content");
+		const lines = section.querySelectorAll(".step-line");
+		return { section, indicators, contents, lines };
+	}
+
+	function setActiveStep(activeIndex: number) {
+		const els = getStepElements();
+		if (!els) return;
+		const { indicators, contents, lines } = els;
+
+		indicators.forEach((ind, i) => {
+			ind.classList.toggle("completed", i < activeIndex);
+			ind.removeAttribute("aria-current");
+			if (i === activeIndex) {
+				ind.setAttribute("aria-current", "step");
+			}
+		});
+
+		contents.forEach((content, i) => {
+			content.classList.toggle("inactive", i !== activeIndex);
+		});
+
+		lines.forEach((line, i) => {
+			line.classList.toggle("active", activeIndex > i);
+		});
+	}
+
+	function initScrollObserver() {
+		const els = getStepElements();
+		if (!els) return;
+		const { contents } = els;
+		const ratios = new Map<Element, number>();
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					ratios.set(entry.target, entry.intersectionRatio);
+				}
+				let maxRatio = 0;
+				let activeIndex = 0;
+				contents.forEach((el, i) => {
+					const r = ratios.get(el) ?? 0;
+					if (r > maxRatio) {
+						maxRatio = r;
+						activeIndex = i;
+					}
+				});
+				setActiveStep(activeIndex);
+			},
+			{ root: null, rootMargin: "-30% 0px -25% 0px", threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] },
+		);
+
+		contents.forEach((el) => observer.observe(el));
+	}
+
+	function initClickHandlers() {
+		const els = getStepElements();
+		if (!els) return;
+		const { indicators, contents } = els;
+
+		indicators.forEach((ind, i) => {
+			ind.addEventListener("click", () => {
+				const target = contents[i];
+				if (target) {
+					setActiveStep(i);
+					target.scrollIntoView({ behavior: "smooth", block: "center" });
+				}
+			});
+		});
+	}
+
+	function init() {
+		setActiveStep(0);
+		initScrollObserver();
+		initClickHandlers();
+	}
+
+	document.addEventListener("DOMContentLoaded", init);
+</script>
