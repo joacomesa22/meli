@@ -9,13 +9,17 @@ let pages = [
 		title: "Home",
 		url: "/",
 	},
-	// {
-	// 	title: "Services",
-	// 	url: "/services",
-	// },
 	{
-		title: "Contacts",
-		url: "/contact/",
+		title: "Servicios",
+		url: "/",
+	},
+	{
+		title: "Nosotros",
+		url: "/",
+	},
+	{
+		title: "Contacto",
+		url: "/",
 	},
 ];
 
@@ -30,14 +34,14 @@ const { pathname } = Astro.url;
 ---
 
 <header>
-	<a href="/" aria-label="Home" class="logo absolute z-50 flex h-[4.5rem] items-center md:h-[5.9rem]">
-		<img src="/images/logo.png" alt="Mintaka Studio Logo" class="logo-svg h-6 w-auto md:h-8" width="100" height="32" />
+	<a href="/" aria-label="Home" class="logo absolute z-50 flex items-center">
+		<img src="/images/logo-white.png" alt="Mintaka Studio Logo" class="logo-svg h-6 w-auto md:h-10" width="100" height="32" />
 	</a>
 	<div data-xdata="{ open: false }" class="navigation fixed right-0 top-0 z-50" data-xbind.class="{'w-full navbar-open': open}">
 		<div class="ml-auto md:max-w-fit" data-xbind.class="{'max-w-3xl': open, 'max-w-[8rem]': !open }">
 			<div class="mx-auto w-full">
 				<div
-					class="shadow-thick resizable nav-container squircle relative mx-auto flex w-full flex-col justify-center overflow-x-hidden bg-zinc-900 backdrop-blur-xl backdrop-filter md:flex-row-reverse">
+					class="shadow-thick resizable nav-container squircle relative mx-auto flex w-full flex-col justify-center overflow-x-hidden bg-stone-900/30 backdrop-blur-sm backdrop-filter md:flex-row-reverse">
 					<div class="flex flex-row items-center justify-end md:hidden">
 						<a class="px-3 py-[0.4rem] pl-4" href="/contact/" aria-label="Contact Page">
 							<Icon class="text-white" name="octicon:mail-16" width="20" data-xbind.class="{'hidden': open}" />
@@ -46,7 +50,7 @@ const { pathname } = Astro.url;
 							data-xon.click="open = !open"
 							data-xbind.style="{'padding-top': open ? '1rem' : '0.4rem'}"
 							aria-label="Open navbar"
-							class="inline-flex items-center justify-center px-3 py-[0.4rem] pr-4 text-white hover:text-blue-300 focus:text-white focus:outline-none">
+							class="inline-flex items-center justify-center px-3 py-[0.4rem] pr-4 text-white hover:text-white focus:text-white focus:outline-none">
 							<svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
 								<path
 									data-xbind.class="{'hidden': open, 'inline-flex': !open }"
@@ -79,7 +83,7 @@ const { pathname } = Astro.url;
 												page.url === pathname || (page.url === "/blog" && pathname.startsWith("/blog")) ? "active" : ""
 											}`}>
 											<span class="menu-item-container inline-block">
-												<span class="menu-item px-4 py-1 font-medium uppercase tracking-wide text-zinc-400 hover:text-white focus:text-white focus:shadow-none focus:outline-none">
+												<span class="menu-item rounded px-4 py-1 tracking-wide text-stone-900 hover:text-stone-900 focus:text-stone-900 focus:shadow-none focus:outline-none">
 													{page.title}
 												</span>
 											</span>
@@ -97,20 +101,23 @@ const { pathname } = Astro.url;
 
 <style>
 	.navigation {
-		mix-blend-mode: difference;
+		right: 2.1rem;
+		top: 2.1rem;
+		/* keep fixed positioning but inset from the hero border */
 	}
 	.navigation.navbar-open {
-		mix-blend-mode: luminosity;
+		/* open menu styling */
 	}
-	.navigation,
+	/* Position logo and navigation 1rem from the hero border (pixel-perfect alignment) */
 	.logo {
-		padding: 1rem var(--base-padding-x);
+		left: 2rem;
+		top: 2rem;
+		padding: 0; /* spacing handled by position offsets */
 	}
-	@media (min-width: 768px) {
-		.navigation,
-		.logo {
-			padding: 2rem var(--base-padding-x);
-		}
+
+	/* navigation is fixed in markup; ensure it sits 1rem from right/top */
+	.navigation {
+		padding: 0; /* internal content spacing handled inside component */
 	}
 	.resizable:before {
 		content: "|";
@@ -119,13 +126,18 @@ const { pathname } = Astro.url;
 		top: 0.36rem;
 		font-size: 12px;
 		line-height: 23px;
-		color: #8e8e8e;
+		color: #fff;
 		opacity: 0;
-		text-shadow: 4px 0 #8e8e8e;
+		text-shadow: 4px 0 #fff;
 		transition: all 0.5s ease;
 	}
 	.collapsed .resizable:before {
 		opacity: 1;
+	}
+	/* Hide menu items when collapsed */
+	nav ul.collapsed li {
+		opacity: 0;
+		pointer-events: none;
 	}
 	nav a .menu-item-container {
 		border-radius: 0.45rem;
@@ -134,16 +146,10 @@ const { pathname } = Astro.url;
 	nav a:hover .menu-item-container {
 		transition: background-color 0.3s ease;
 	}
-	nav ul:not(.collapsed) a.active .menu-item-container {
-		transition-duration: 0.5s;
-		background: #aaa;
-	}
-	nav ul:not(.collapsed) a:hover .menu-item-container {
-		background: #fff;
-	}
+
 	nav ul:not(.collapsed) a.active .menu-item-container .menu-item,
 	nav ul:not(.collapsed) a:hover .menu-item-container .menu-item {
-		color: #000;
+		color: #fff;
 	}
 	nav ul.collapsed a.active .menu-item-container .menu-item,
 	nav ul.collapsed a:hover .menu-item-container .menu-item {
